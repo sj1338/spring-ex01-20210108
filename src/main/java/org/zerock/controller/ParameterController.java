@@ -5,9 +5,13 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.zerock.bean.Member;
+import org.zerock.domain.Book;
+import org.zerock.domain.CustomBookEditor;
+import org.zerock.domain.Member;
 
 import lombok.extern.log4j.Log4j;
 
@@ -92,7 +96,40 @@ public class ParameterController {
 		log.info("method9");
 		log.info(member);
 	}
+	
+
+	
+	
+	@InitBinder
+	public void initBinder1(WebDataBinder binder) {
+		log.info("initbinder1");
+		
+		// requiredType은 propertyEditor를 사용
+//		binder.registerCustomEditor(requiredType, propertyEditor);
+		binder.registerCustomEditor(Book.class, new CustomBookEditor());
+		
+	}
+	
+	@RequestMapping("/ex10")
+	public void method10(@RequestParam("book") Book book) {
+		log.info("method10");
+		log.info(book);
+	}
+	
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
